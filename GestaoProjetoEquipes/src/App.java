@@ -43,7 +43,7 @@ public class App {
         
         String firstName = JOptionPane.showInputDialog("Digite seu primeiro nome: ");
         String lastName = JOptionPane.showInputDialog("Digite seu último nome: ");
-        String idade = JOptionPane.showInputDialog("Qual a sua idade: ");
+        String idade = JOptionPane.showInputDialog("Qual é a sua idade? : ");
         
         String cliente = firstName + " " + lastName + " com idade de " + idade + " anos";
         
