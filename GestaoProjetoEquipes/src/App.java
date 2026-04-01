@@ -17,6 +17,7 @@ public class App {
         int numero1 = 2;
         int numero2 = 3;
         
+        
         int resultadoSoma = numero1 + numero2;
         
         System.out.println(resultadoSoma);
