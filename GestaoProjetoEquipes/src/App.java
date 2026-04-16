@@ -1,6 +1,6 @@
-import javax.swing.*;
 import models.Usuario;
 import services.UsuarioService;
+import views.TelaLogin;
 
 public class App {
 
@@ -8,13 +8,11 @@ public class App {
 
         UsuarioService service = new UsuarioService();
 
-        // usuário 1
         Usuario admin = new Usuario();
         admin.setLogin("admin");
         admin.setSenha("123");
         admin.setNome("Lukas");
 
-        // usuário 2
         Usuario user = new Usuario();
         user.setLogin("joao");
         user.setSenha("123");
@@ -23,17 +21,6 @@ public class App {
         service.cadastrar(admin);
         service.cadastrar(user);
 
-        String login = JOptionPane.showInputDialog("Login:");
-        String senha = JOptionPane.showInputDialog("Senha:");
-
-        Usuario logado = service.login(login, senha);
-
-        if (logado != null) {
-            JOptionPane.showMessageDialog(null,
-                    "Bem-vindo " + logado.getNome());
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "Login inválido!");
-        }
+        new TelaLogin(service).setVisible(true);
     }
 }

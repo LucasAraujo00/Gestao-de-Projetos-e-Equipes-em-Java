@@ -23,4 +23,8 @@ public class UsuarioService {
 
         return null;
     }
+
+    public List<Usuario> listar() {
+        return usuarios;
+    }
 }
