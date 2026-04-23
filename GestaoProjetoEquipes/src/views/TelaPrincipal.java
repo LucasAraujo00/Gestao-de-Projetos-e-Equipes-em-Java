@@ -26,7 +26,7 @@ public class TelaPrincipal extends JFrame {
         this.equipeService = equipeService;
 
         setTitle("Sistema de Projetos");
-        setSize(400, 500);
+        setSize(400, 560);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -71,9 +71,14 @@ public class TelaPrincipal extends JFrame {
         btnListarEquipe.setBounds(100, 340, 200, 30);
         add(btnListarEquipe);
 
+        // ===== DASHBOARD =====
+        JButton btnDashboard = new JButton("Dashboard");
+        btnDashboard.setBounds(100, 380, 200, 30);
+        add(btnDashboard);
+
         // ===== SAIR =====
         JButton btnSair = new JButton("Sair");
-        btnSair.setBounds(100, 390, 200, 30);
+        btnSair.setBounds(100, 430, 200, 30);
         add(btnSair);
 
         // ===== AÇÕES =====
@@ -108,6 +113,10 @@ public class TelaPrincipal extends JFrame {
 
         btnListarEquipe.addActionListener(e ->
                 new TelaListaEquipes(equipeService).setVisible(true)
+        );
+
+        btnDashboard.addActionListener(e ->
+                new TelaDashboard(service, projetoService, tarefaService).setVisible(true)
         );
 
         btnSair.addActionListener(e -> System.exit(0));
