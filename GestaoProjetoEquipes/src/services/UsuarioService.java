@@ -27,4 +27,12 @@ public class UsuarioService {
     public List<Usuario> listar() {
         return usuarios;
     }
+
+    public void remover(int index) {
+        usuarios.remove(index);
+    }
+
+    public void atualizar(int index, Usuario novo) {
+        usuarios.set(index, novo);
+    }
 }
