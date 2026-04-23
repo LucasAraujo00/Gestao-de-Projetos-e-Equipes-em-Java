@@ -14,10 +14,10 @@ public class TelaCadastroTarefa extends JFrame {
 
     private JTextField txtTitulo;
     private JTextField txtDescricao;
-    private JTextField txtStatus;
     private JTextField txtDataInicio;
     private JTextField txtDataFim;
 
+    private JComboBox<String> cbStatus;
     private JComboBox<Projeto> cbProjeto;
     private JComboBox<Usuario> cbResponsavel;
 
@@ -58,9 +58,12 @@ public class TelaCadastroTarefa extends JFrame {
         lblStatus.setBounds(20, 100, 100, 25);
         add(lblStatus);
 
-        txtStatus = new JTextField();
-        txtStatus.setBounds(150, 100, 200, 25);
-        add(txtStatus);
+        cbStatus = new JComboBox<>();
+        cbStatus.setBounds(150, 100, 200, 25);
+        cbStatus.addItem("Pendente");
+        cbStatus.addItem("Em execução");
+        cbStatus.addItem("Concluída");
+        add(cbStatus);
 
         JLabel lblProjeto = new JLabel("Projeto:");
         lblProjeto.setBounds(20, 140, 100, 25);
@@ -86,19 +89,19 @@ public class TelaCadastroTarefa extends JFrame {
             cbResponsavel.addItem(u);
         }
 
-        JLabel lblDataInicio = new JLabel("Data Início:");
-        lblDataInicio.setBounds(20, 220, 100, 25);
-        add(lblDataInicio);
+        JLabel lblInicio = new JLabel("Data Início:");
+        lblInicio.setBounds(20, 220, 100, 25);
+        add(lblInicio);
 
-        txtDataInicio = new JTextField("dd/MM/yyyy");
+        txtDataInicio = new JTextField("xx/xx/xxxx");
         txtDataInicio.setBounds(150, 220, 200, 25);
         add(txtDataInicio);
 
-        JLabel lblDataFim = new JLabel("Data Fim:");
-        lblDataFim.setBounds(20, 260, 100, 25);
-        add(lblDataFim);
+        JLabel lblFim = new JLabel("Data Fim:");
+        lblFim.setBounds(20, 260, 100, 25);
+        add(lblFim);
 
-        txtDataFim = new JTextField("dd/MM/yyyy");
+        txtDataFim = new JTextField("xx/xx/xxxx");
         txtDataFim.setBounds(150, 260, 200, 25);
         add(txtDataFim);
 
@@ -110,14 +113,13 @@ public class TelaCadastroTarefa extends JFrame {
     }
 
     private void salvar() {
-
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
             Tarefa t = new Tarefa();
             t.setTitulo(txtTitulo.getText());
             t.setDescricao(txtDescricao.getText());
-            t.setStatus(txtStatus.getText());
+            t.setStatus(cbStatus.getSelectedItem().toString());
             t.setProjeto((Projeto) cbProjeto.getSelectedItem());
             t.setResponsavel((Usuario) cbResponsavel.getSelectedItem());
             t.setDataInicioPrevista(sdf.parse(txtDataInicio.getText()));
@@ -128,7 +130,7 @@ public class TelaCadastroTarefa extends JFrame {
             JOptionPane.showMessageDialog(this, "Tarefa cadastrada!");
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro na data!");
+            JOptionPane.showMessageDialog(this, "Erro nas datas!");
         }
     }
 }
