@@ -1,19 +1,27 @@
 package views;
 
-import models.Usuario;
-import services.UsuarioService;
-
 import javax.swing.*;
+import models.Usuario;
+import services.ProjetoService;
+import services.TarefaService;
+import services.UsuarioService;
 
 public class TelaLogin extends JFrame {
 
     private JTextField txtLogin;
     private JPasswordField txtSenha;
-    private UsuarioService service;
 
-    public TelaLogin(UsuarioService service) {
+    private UsuarioService service;
+    private ProjetoService projetoService;
+    private TarefaService tarefaService;
+
+    public TelaLogin(UsuarioService service,
+                     ProjetoService projetoService,
+                     TarefaService tarefaService) {
 
         this.service = service;
+        this.projetoService = projetoService;
+        this.tarefaService = tarefaService;
 
         setTitle("Login");
         setSize(300, 200);
@@ -53,12 +61,11 @@ public class TelaLogin extends JFrame {
 
         if (usuario != null) {
 
-            new TelaPrincipal(usuario, service).setVisible(true);
+            new TelaPrincipal(usuario, service, projetoService, tarefaService).setVisible(true);
             this.dispose();
 
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Login inválido!");
+            JOptionPane.showMessageDialog(this, "Login inválido!");
         }
     }
 }

@@ -1,13 +1,18 @@
 import models.Usuario;
 import services.UsuarioService;
+import services.ProjetoService;
+import services.TarefaService;
 import views.TelaLogin;
 
 public class App {
 
     public static void main(String[] args) {
 
-        UsuarioService service = new UsuarioService();
+        UsuarioService usuarioService = new UsuarioService();
+        ProjetoService projetoService = new ProjetoService();
+        TarefaService tarefaService = new TarefaService();
 
+        // usuários iniciais
         Usuario admin = new Usuario();
         admin.setLogin("admin");
         admin.setSenha("123");
@@ -18,9 +23,10 @@ public class App {
         user.setSenha("123");
         user.setNome("João");
 
-        service.cadastrar(admin);
-        service.cadastrar(user);
+        usuarioService.cadastrar(admin);
+        usuarioService.cadastrar(user);
 
-        new TelaLogin(service).setVisible(true);
+        // inicia sistema
+        new TelaLogin(usuarioService, projetoService, tarefaService).setVisible(true);
     }
 }
