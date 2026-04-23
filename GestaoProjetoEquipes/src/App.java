@@ -2,6 +2,7 @@ import models.Usuario;
 import services.UsuarioService;
 import services.ProjetoService;
 import services.TarefaService;
+import services.EquipeService;
 import views.TelaLogin;
 
 public class App {
@@ -11,6 +12,7 @@ public class App {
         UsuarioService usuarioService = new UsuarioService();
         ProjetoService projetoService = new ProjetoService();
         TarefaService tarefaService = new TarefaService();
+        EquipeService equipeService = new EquipeService();
 
         // usuários iniciais
         Usuario admin = new Usuario();
@@ -26,7 +28,8 @@ public class App {
         usuarioService.cadastrar(admin);
         usuarioService.cadastrar(user);
 
-        // inicia sistema
-        new TelaLogin(usuarioService, projetoService, tarefaService).setVisible(true);
+        // iniciar sistema
+        new TelaLogin(usuarioService, projetoService, tarefaService, equipeService)
+                .setVisible(true);
     }
 }

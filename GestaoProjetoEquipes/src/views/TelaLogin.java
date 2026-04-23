@@ -1,10 +1,12 @@
 package views;
 
-import javax.swing.*;
 import models.Usuario;
+import services.UsuarioService;
 import services.ProjetoService;
 import services.TarefaService;
-import services.UsuarioService;
+import services.EquipeService;
+
+import javax.swing.*;
 
 public class TelaLogin extends JFrame {
 
@@ -14,14 +16,17 @@ public class TelaLogin extends JFrame {
     private UsuarioService service;
     private ProjetoService projetoService;
     private TarefaService tarefaService;
+    private EquipeService equipeService;
 
     public TelaLogin(UsuarioService service,
                      ProjetoService projetoService,
-                     TarefaService tarefaService) {
+                     TarefaService tarefaService,
+                     EquipeService equipeService) {
 
         this.service = service;
         this.projetoService = projetoService;
         this.tarefaService = tarefaService;
+        this.equipeService = equipeService;
 
         setTitle("Login");
         setSize(300, 200);
@@ -61,7 +66,9 @@ public class TelaLogin extends JFrame {
 
         if (usuario != null) {
 
-            new TelaPrincipal(usuario, service, projetoService, tarefaService).setVisible(true);
+            new TelaPrincipal(usuario, service, projetoService, tarefaService, equipeService)
+                    .setVisible(true);
+
             this.dispose();
 
         } else {

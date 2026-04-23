@@ -2,6 +2,7 @@ package views;
 
 import javax.swing.*;
 import models.Usuario;
+import services.EquipeService;
 import services.ProjetoService;
 import services.TarefaService;
 import services.UsuarioService;
@@ -11,18 +12,21 @@ public class TelaPrincipal extends JFrame {
     private UsuarioService service;
     private ProjetoService projetoService;
     private TarefaService tarefaService;
+    private EquipeService equipeService;
 
     public TelaPrincipal(Usuario usuario,
                          UsuarioService service,
                          ProjetoService projetoService,
-                         TarefaService tarefaService) {
+                         TarefaService tarefaService,
+                         EquipeService equipeService) {
 
         this.service = service;
         this.projetoService = projetoService;
         this.tarefaService = tarefaService;
+        this.equipeService = equipeService;
 
         setTitle("Sistema de Projetos");
-        setSize(400, 420);
+        setSize(400, 500);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -58,41 +62,54 @@ public class TelaPrincipal extends JFrame {
         btnListarTarefa.setBounds(100, 260, 200, 30);
         add(btnListarTarefa);
 
+        // ===== EQUIPES =====
+        JButton btnEquipe = new JButton("Cadastrar Equipe");
+        btnEquipe.setBounds(100, 300, 200, 30);
+        add(btnEquipe);
+
+        JButton btnListarEquipe = new JButton("Listar Equipes");
+        btnListarEquipe.setBounds(100, 340, 200, 30);
+        add(btnListarEquipe);
+
         // ===== SAIR =====
         JButton btnSair = new JButton("Sair");
-        btnSair.setBounds(100, 310, 200, 30);
+        btnSair.setBounds(100, 390, 200, 30);
         add(btnSair);
 
         // ===== AÇÕES =====
 
-        // Usuários
-        btnCadastrar.addActionListener(e -> {
-            new TelaCadastroUsuario(service).setVisible(true);
-        });
+        btnCadastrar.addActionListener(e ->
+                new TelaCadastroUsuario(service).setVisible(true)
+        );
 
-        btnListar.addActionListener(e -> {
-            new TelaListaUsuarios(service).setVisible(true);
-        });
+        btnListar.addActionListener(e ->
+                new TelaListaUsuarios(service).setVisible(true)
+        );
 
-        // Projetos
-        btnProjeto.addActionListener(e -> {
-            new TelaCadastroProjeto(projetoService, service).setVisible(true);
-        });
+        btnProjeto.addActionListener(e ->
+                new TelaCadastroProjeto(projetoService, service).setVisible(true)
+        );
 
-        btnListarProjeto.addActionListener(e -> {
-            new TelaListaProjetos(projetoService).setVisible(true);
-        });
+        btnListarProjeto.addActionListener(e ->
+                new TelaListaProjetos(projetoService).setVisible(true)
+        );
 
-        // Tarefas
-        btnTarefa.addActionListener(e -> {
-            new TelaCadastroTarefa(tarefaService, projetoService, service).setVisible(true);
-        });
+        btnTarefa.addActionListener(e ->
+                new TelaCadastroTarefa(tarefaService, projetoService, service).setVisible(true)
+        );
 
-        btnListarTarefa.addActionListener(e -> {
-            new TelaListaTarefas(tarefaService).setVisible(true);
-        });
+        btnListarTarefa.addActionListener(e ->
+                new TelaListaTarefas(tarefaService).setVisible(true)
+        );
 
-        // Sair
+        btnEquipe.addActionListener(e ->
+                new TelaCadastroEquipe(equipeService, service).setVisible(true)
+        );
+
+        btnListarEquipe.addActionListener(e ->
+                new TelaListaEquipes(equipeService).setVisible(true)
+        );
+
         btnSair.addActionListener(e -> System.exit(0));
     }
 }
