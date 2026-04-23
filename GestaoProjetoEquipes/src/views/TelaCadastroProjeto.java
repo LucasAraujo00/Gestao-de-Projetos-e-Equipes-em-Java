@@ -74,7 +74,7 @@ public class TelaCadastroProjeto extends JFrame {
         add(new JLabel("Data Início:"), gbc);
 
         gbc.gridx = 1;
-        txtDataInicio = new JTextField("dd/MM/yyyy");
+        txtDataInicio = new JTextField("xx/xx/xxxx");
         add(txtDataInicio, gbc);
 
         // Data fim
@@ -83,7 +83,7 @@ public class TelaCadastroProjeto extends JFrame {
         add(new JLabel("Data Fim:"), gbc);
 
         gbc.gridx = 1;
-        txtDataFim = new JTextField("dd/MM/yyyy");
+        txtDataFim = new JTextField("xx/xx/xxxx");
         add(txtDataFim, gbc);
 
         // Botão

@@ -76,7 +76,7 @@ public class TelaListaProjetos extends JFrame {
                 c.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
 
                 if (status.equalsIgnoreCase("Concluído")) {
-                    c.setText("✔ Concluído");
+                    c.setText("✓ Concluído");
                     c.setForeground(new java.awt.Color(0, 128, 0));
 
                 } else if (status.equalsIgnoreCase("Em andamento")) {

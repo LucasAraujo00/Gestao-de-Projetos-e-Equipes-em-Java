@@ -1,8 +1,8 @@
 import models.Usuario;
-import services.UsuarioService;
+import services.EquipeService;
 import services.ProjetoService;
 import services.TarefaService;
-import services.EquipeService;
+import services.UsuarioService;
 import views.TelaLogin;
 
 public class App {
