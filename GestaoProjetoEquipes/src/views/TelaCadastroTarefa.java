@@ -8,129 +8,129 @@ import services.ProjetoService;
 import services.UsuarioService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 
 public class TelaCadastroTarefa extends JFrame {
 
-    private JTextField txtTitulo;
-    private JTextField txtDescricao;
-    private JTextField txtDataInicio;
-    private JTextField txtDataFim;
-
+    private JTextField txtTitulo, txtDescricao, txtDataInicio, txtDataFim;
     private JComboBox<String> cbStatus;
     private JComboBox<Projeto> cbProjeto;
     private JComboBox<Usuario> cbResponsavel;
-
-    private TarefaService tarefaService;
-    private ProjetoService projetoService;
-    private UsuarioService usuarioService;
 
     public TelaCadastroTarefa(TarefaService tarefaService,
                               ProjetoService projetoService,
                               UsuarioService usuarioService) {
 
-        this.tarefaService = tarefaService;
-        this.projetoService = projetoService;
-        this.usuarioService = usuarioService;
-
         setTitle("Cadastro de Tarefa");
-        setSize(400, 350);
-        setLayout(null);
+        setSize(450, 400);
         setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
 
-        JLabel lblTitulo = new JLabel("Título:");
-        lblTitulo.setBounds(20, 20, 100, 25);
-        add(lblTitulo);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        int y = 0;
+
+        // Título
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Título:"), gbc);
+
+        gbc.gridx = 1;
         txtTitulo = new JTextField();
-        txtTitulo.setBounds(150, 20, 200, 25);
-        add(txtTitulo);
+        add(txtTitulo, gbc);
 
-        JLabel lblDescricao = new JLabel("Descrição:");
-        lblDescricao.setBounds(20, 60, 100, 25);
-        add(lblDescricao);
+        // Descrição
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Descrição:"), gbc);
 
+        gbc.gridx = 1;
         txtDescricao = new JTextField();
-        txtDescricao.setBounds(150, 60, 200, 25);
-        add(txtDescricao);
+        add(txtDescricao, gbc);
 
-        JLabel lblStatus = new JLabel("Status:");
-        lblStatus.setBounds(20, 100, 100, 25);
-        add(lblStatus);
+        // Status
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Status:"), gbc);
 
-        cbStatus = new JComboBox<>();
-        cbStatus.setBounds(150, 100, 200, 25);
-        cbStatus.addItem("Pendente");
-        cbStatus.addItem("Em execução");
-        cbStatus.addItem("Concluída");
-        add(cbStatus);
+        gbc.gridx = 1;
+        cbStatus = new JComboBox<>(new String[]{
+                "Pendente", "Em execução", "Concluída"
+        });
+        add(cbStatus, gbc);
 
-        JLabel lblProjeto = new JLabel("Projeto:");
-        lblProjeto.setBounds(20, 140, 100, 25);
-        add(lblProjeto);
+        // Projeto
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Projeto:"), gbc);
 
+        gbc.gridx = 1;
         cbProjeto = new JComboBox<>();
-        cbProjeto.setBounds(150, 140, 200, 25);
-        add(cbProjeto);
-
         for (Projeto p : projetoService.listar()) {
             cbProjeto.addItem(p);
         }
+        add(cbProjeto, gbc);
 
-        JLabel lblResponsavel = new JLabel("Responsável:");
-        lblResponsavel.setBounds(20, 180, 100, 25);
-        add(lblResponsavel);
+        // Responsável
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Responsável:"), gbc);
 
+        gbc.gridx = 1;
         cbResponsavel = new JComboBox<>();
-        cbResponsavel.setBounds(150, 180, 200, 25);
-        add(cbResponsavel);
-
         for (Usuario u : usuarioService.listar()) {
             cbResponsavel.addItem(u);
         }
+        add(cbResponsavel, gbc);
 
-        JLabel lblInicio = new JLabel("Data Início:");
-        lblInicio.setBounds(20, 220, 100, 25);
-        add(lblInicio);
+        // Data início
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Data Início:"), gbc);
 
-        txtDataInicio = new JTextField("xx/xx/xxxx");
-        txtDataInicio.setBounds(150, 220, 200, 25);
-        add(txtDataInicio);
+        gbc.gridx = 1;
+        txtDataInicio = new JTextField("dd/MM/yyyy");
+        add(txtDataInicio, gbc);
 
-        JLabel lblFim = new JLabel("Data Fim:");
-        lblFim.setBounds(20, 260, 100, 25);
-        add(lblFim);
+        // Data fim
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Data Fim:"), gbc);
 
-        txtDataFim = new JTextField("xx/xx/xxxx");
-        txtDataFim.setBounds(150, 260, 200, 25);
-        add(txtDataFim);
+        gbc.gridx = 1;
+        txtDataFim = new JTextField("dd/MM/yyyy");
+        add(txtDataFim, gbc);
+
+        // Botão
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        gbc.gridwidth = 2;
 
         JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(150, 300, 100, 30);
-        add(btnSalvar);
+        add(btnSalvar, gbc);
 
-        btnSalvar.addActionListener(e -> salvar());
-    }
+        btnSalvar.addActionListener(e -> {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    private void salvar() {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Tarefa t = new Tarefa();
+                t.setTitulo(txtTitulo.getText());
+                t.setDescricao(txtDescricao.getText());
+                t.setStatus(cbStatus.getSelectedItem().toString());
+                t.setProjeto((Projeto) cbProjeto.getSelectedItem());
+                t.setResponsavel((Usuario) cbResponsavel.getSelectedItem());
+                t.setDataInicioPrevista(sdf.parse(txtDataInicio.getText()));
+                t.setDataFimPrevista(sdf.parse(txtDataFim.getText()));
 
-            Tarefa t = new Tarefa();
-            t.setTitulo(txtTitulo.getText());
-            t.setDescricao(txtDescricao.getText());
-            t.setStatus(cbStatus.getSelectedItem().toString());
-            t.setProjeto((Projeto) cbProjeto.getSelectedItem());
-            t.setResponsavel((Usuario) cbResponsavel.getSelectedItem());
-            t.setDataInicioPrevista(sdf.parse(txtDataInicio.getText()));
-            t.setDataFimPrevista(sdf.parse(txtDataFim.getText()));
+                tarefaService.cadastrar(t);
 
-            tarefaService.cadastrar(t);
+                JOptionPane.showMessageDialog(this, "Tarefa cadastrada!");
 
-            JOptionPane.showMessageDialog(this, "Tarefa cadastrada!");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro nas datas!");
-        }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro nas datas!");
+            }
+        });
     }
 }

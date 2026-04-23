@@ -6,112 +6,113 @@ import services.ProjetoService;
 import services.UsuarioService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 
 public class TelaCadastroProjeto extends JFrame {
 
-    private JTextField txtNome;
-    private JTextField txtDescricao;
-    private JTextField txtDataInicio;
-    private JTextField txtDataFim;
-
+    private JTextField txtNome, txtDescricao, txtDataInicio, txtDataFim;
     private JComboBox<String> cbStatus;
     private JComboBox<Usuario> cbGerente;
 
-    private ProjetoService projetoService;
-    private UsuarioService usuarioService;
-
     public TelaCadastroProjeto(ProjetoService projetoService, UsuarioService usuarioService) {
 
-        this.projetoService = projetoService;
-        this.usuarioService = usuarioService;
-
         setTitle("Cadastro de Projeto");
-        setSize(400, 300);
-        setLayout(null);
+        setSize(450, 350);
         setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
 
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(20, 20, 100, 25);
-        add(lblNome);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        int y = 0;
+
+        // Nome
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Nome:"), gbc);
+
+        gbc.gridx = 1;
         txtNome = new JTextField();
-        txtNome.setBounds(150, 20, 200, 25);
-        add(txtNome);
+        add(txtNome, gbc);
 
-        JLabel lblDescricao = new JLabel("Descrição:");
-        lblDescricao.setBounds(20, 60, 100, 25);
-        add(lblDescricao);
+        // Descrição
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Descrição:"), gbc);
 
+        gbc.gridx = 1;
         txtDescricao = new JTextField();
-        txtDescricao.setBounds(150, 60, 200, 25);
-        add(txtDescricao);
+        add(txtDescricao, gbc);
 
-        JLabel lblStatus = new JLabel("Status:");
-        lblStatus.setBounds(20, 100, 100, 25);
-        add(lblStatus);
+        // Status
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Status:"), gbc);
 
-        cbStatus = new JComboBox<>();
-        cbStatus.setBounds(150, 100, 200, 25);
-        cbStatus.addItem("Planejado");
-        cbStatus.addItem("Em andamento");
-        cbStatus.addItem("Concluído");
-        cbStatus.addItem("Cancelado");
-        add(cbStatus);
+        gbc.gridx = 1;
+        cbStatus = new JComboBox<>(new String[]{
+                "Planejado", "Em andamento", "Concluído", "Cancelado"
+        });
+        add(cbStatus, gbc);
 
-        JLabel lblGerente = new JLabel("Gerente:");
-        lblGerente.setBounds(20, 140, 100, 25);
-        add(lblGerente);
+        // Gerente
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Gerente:"), gbc);
 
+        gbc.gridx = 1;
         cbGerente = new JComboBox<>();
-        cbGerente.setBounds(150, 140, 200, 25);
-        add(cbGerente);
-
         for (Usuario u : usuarioService.listar()) {
             cbGerente.addItem(u);
         }
+        add(cbGerente, gbc);
 
-        JLabel lblInicio = new JLabel("Data Início:");
-        lblInicio.setBounds(20, 180, 100, 25);
-        add(lblInicio);
+        // Data início
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Data Início:"), gbc);
 
-        txtDataInicio = new JTextField("xx/xx/xxxx");
-        txtDataInicio.setBounds(150, 180, 200, 25);
-        add(txtDataInicio);
+        gbc.gridx = 1;
+        txtDataInicio = new JTextField("dd/MM/yyyy");
+        add(txtDataInicio, gbc);
 
-        JLabel lblFim = new JLabel("Data Fim:");
-        lblFim.setBounds(20, 210, 100, 25);
-        add(lblFim);
+        // Data fim
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        add(new JLabel("Data Fim:"), gbc);
 
-        txtDataFim = new JTextField("xx/xx/xxxx");
-        txtDataFim.setBounds(150, 210, 200, 25);
-        add(txtDataFim);
+        gbc.gridx = 1;
+        txtDataFim = new JTextField("dd/MM/yyyy");
+        add(txtDataFim, gbc);
+
+        // Botão
+        y++;
+        gbc.gridx = 0; gbc.gridy = y;
+        gbc.gridwidth = 2;
 
         JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(150, 240, 100, 30);
-        add(btnSalvar);
+        add(btnSalvar, gbc);
 
-        btnSalvar.addActionListener(e -> salvar());
-    }
+        btnSalvar.addActionListener(e -> {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    private void salvar() {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Projeto p = new Projeto();
+                p.setNome(txtNome.getText());
+                p.setDescricao(txtDescricao.getText());
+                p.setStatus(cbStatus.getSelectedItem().toString());
+                p.setGerente((Usuario) cbGerente.getSelectedItem());
+                p.setDataInicio(sdf.parse(txtDataInicio.getText()));
+                p.setDataFimPrevista(sdf.parse(txtDataFim.getText()));
 
-            Projeto p = new Projeto();
-            p.setNome(txtNome.getText());
-            p.setDescricao(txtDescricao.getText());
-            p.setStatus(cbStatus.getSelectedItem().toString());
-            p.setGerente((Usuario) cbGerente.getSelectedItem());
-            p.setDataInicio(sdf.parse(txtDataInicio.getText()));
-            p.setDataFimPrevista(sdf.parse(txtDataFim.getText()));
+                projetoService.cadastrar(p);
 
-            projetoService.cadastrar(p);
+                JOptionPane.showMessageDialog(this, "Projeto cadastrado!");
 
-            JOptionPane.showMessageDialog(this, "Projeto cadastrado!");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro nas datas!");
-        }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro nas datas!");
+            }
+        });
     }
 }
